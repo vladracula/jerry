@@ -61,7 +61,7 @@
 #ifdef __APPLE__
     const bool SHOW_ICON_TEXT = false;
 #else
-    const bool SHOW_ICON_TEXT = true;
+    const bool SHOW_ICON_TEXT = false;
 #endif
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -198,7 +198,8 @@ MainWindow::MainWindow(QWidget *parent) :
     rHboxWidget->setLayout(vbox_right);
     this->splitterLeftRight = new QSplitter(this);
     splitterLeftRight->addWidget(lHboxWidget);
-    splitterLeftRight->addWidget(rHboxWidget);
+    this->splitterTopDown = new QSplitter(this);
+		splitterLeftRight->addWidget(splitterTopDown);
 
     QSplitterHandle *handleLeftRight = splitterLeftRight->handle(1);
     QHBoxLayout *layoutSplitterLeftRight = new QHBoxLayout(handleLeftRight);
@@ -211,8 +212,7 @@ MainWindow::MainWindow(QWidget *parent) :
     layoutSplitterLeftRight->addWidget(frameLeftRight);
 
 
-    this->splitterTopDown = new QSplitter(this);
-    splitterTopDown->addWidget(splitterLeftRight);
+    splitterTopDown->addWidget(rHboxWidget);
     splitterTopDown->setOrientation(Qt::Vertical);
 
     QVBoxLayout *completeLayout = new QVBoxLayout();
@@ -223,7 +223,9 @@ MainWindow::MainWindow(QWidget *parent) :
     splitterTopDown->addWidget(bottomWidget);
 
     QHBoxLayout *completeLayoutWithSplitter = new QHBoxLayout();
-    completeLayoutWithSplitter->addWidget(splitterTopDown);
+    completeLayoutWithSplitter->setSpacing(0);
+    completeLayoutWithSplitter->setMargin(0);
+    completeLayoutWithSplitter->addWidget(splitterLeftRight);
 
     QSplitterHandle *handleTopDown = splitterTopDown->handle(1);
     QHBoxLayout *layoutSplitterTopDown = new QHBoxLayout(handleTopDown);
@@ -421,7 +423,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setCentralWidget(mainWidget);
     QStatusBar *statusbar = this->statusBar();
     statusbar->showMessage("");
-    this->setContextMenuPolicy(Qt::NoContextMenu);
+		// this->setContextMenuPolicy(Qt::NoContextMenu);
 
     // SIGNALS AND SLOTS
 
@@ -662,10 +664,17 @@ void MainWindow::wheelEvent(QWheelEvent *event) {
 }
 
 void MainWindow::resetLayout() {
-    int halfWidth = this->width() / 9;
-    splitterLeftRight->setSizes(QList<int>({halfWidth*5, halfWidth*4}));
-    int fifthHeight = this->height() / 5;
-    splitterTopDown->setSizes(QList<int>({fifthHeight*4, fifthHeight}));
+		int halfWidth = this->width();
+		int ls;
+		int rs;
+//		ll = this->height();
+//		rr = this->width() - ll;
+		ls = halfWidth * 8;
+		rs = halfWidth * 7;
+
+    splitterLeftRight->setSizes(QList<int>({ls, rs}));
+    int seventhHeight = this->height() / 7;
+    splitterTopDown->setSizes(QList<int>({seventhHeight*5, seventhHeight*2}));
 
     this->update();
 }
