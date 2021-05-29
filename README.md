@@ -29,3 +29,8 @@ Version 3.2.0 (July 2019): Major new features:
  * MultiPV up to 4 lines
  * ability to handle and search large (> 1 GB) PGN files
  * user defined font-sizes
+
+## Building od stretch
+
+- qmake jerry3.pro
+- make
