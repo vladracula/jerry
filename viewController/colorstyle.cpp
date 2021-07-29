@@ -28,12 +28,12 @@ ColorStyle::ColorStyle(QString resourcePath) {
     this->boardStyle = BOARD_STYLE_COLOR;
     this->pieceType = PIECE_STYLE_MERIDA;
 
-    this->styleType = STYLE_BLUE;
+    this->styleType = STYLE_GRAY;
 
-    this->borderColor = BORDER_BLUE;
-    this->coordinateColor = COORDINATE_COLOR_BLUE;
-    this->darkSquare = DARK_SQUARE_BLUE;
-    this->lightSquare = LIGHT_SQUARE_BLUE;
+    this->borderColor = BORDER_GRAY;
+    this->coordinateColor = COORDINATE_COLOR_GRAY;
+    this->darkSquare = DARK_SQUARE_GRAY;
+    this->lightSquare = LIGHT_SQUARE_GRAY;
     this->darkSquareTexture = QPixmap(DARK_SQUARE_MARBLE_BLUE);
     this->lightSquareTexture = QPixmap(LIGHT_SQUARE_MARBLE_BLUE);
 }
@@ -83,10 +83,10 @@ void ColorStyle::setStyle(int styleType) {
     } else {
         // if unknown or default, set to blue
         this->boardStyle = BOARD_STYLE_COLOR;
-        this->styleType = STYLE_BLUE;
-        this->borderColor = BORDER_BLUE;
-        this->coordinateColor = COORDINATE_COLOR_BLUE;
-        this->darkSquare = DARK_SQUARE_BLUE;
-        this->lightSquare = LIGHT_SQUARE_BLUE;
+        this->styleType = STYLE_GRAY;
+        this->borderColor = BORDER_GRAY;
+        this->coordinateColor = COORDINATE_COLOR_GRAY;
+        this->darkSquare = DARK_SQUARE_GRAY;
+        this->lightSquare = LIGHT_SQUARE_GRAY;
     }
 }

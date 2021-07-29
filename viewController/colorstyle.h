@@ -23,7 +23,7 @@
 #include <QColor>
 #include <QPixmap>
 
-const int STYLE_BLUE = 0;
+const int STYLE_GRAY = 0;
 const int STYLE_BROWN = 1;
 const int STYLE_GREEN = 2;
 const int STYLE_WOOD = 3;
@@ -37,10 +37,10 @@ const int PIECE_STYLE_MERIDA = 0;
 const int PIECE_STYLE_OLD = 1;
 const int PIECE_STYLE_USCF = 2;
 
-const QColor BORDER_BLUE = QColor(56,66,91);
-const QColor DARK_SQUARE_BLUE = QColor(90,106,173);
-const QColor LIGHT_SQUARE_BLUE = QColor(166,188,231);
-const QColor COORDINATE_COLOR_BLUE = QColor(239,239,239);
+const QColor BORDER_GRAY = QColor(66,66,66);
+const QColor DARK_SQUARE_GRAY = QColor(106,106,106);
+const QColor LIGHT_SQUARE_GRAY = QColor(188,188,188);
+const QColor COORDINATE_COLOR_GRAY = QColor(239,239,239);
 
 const QColor BORDER_GREEN = QColor(72,81,63);
 const QColor DARK_SQUARE_GREEN = QColor(118,150,86);

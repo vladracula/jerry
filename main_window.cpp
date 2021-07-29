@@ -31,6 +31,7 @@
 #include <QMenu>
 #include <QPrinter>
 #include <QSettings>
+#include <QStyleFactory>
 #include "viewController/boardviewcontroller.h"
 #include "viewController/moveviewcontroller.h"
 #include "controller/edit_controller.h"

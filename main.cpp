@@ -86,28 +86,32 @@ int main(int argc, char *argv[]) {
     // setting dark style
     // todo: fix bold colors in textedit
     // currently not activated
-    //qApp->setStyle(QStyleFactory::create("Fusion"));
-    /*
-        QPalette darkPalette;
-        darkPalette.setColor(QPalette::Window, QColor(53,53,53));
-        darkPalette.setColor(QPalette::WindowText, Qt::white);
-        darkPalette.setColor(QPalette::Base, QColor(25,25,25));
-        darkPalette.setColor(QPalette::AlternateBase, QColor(53,53,53));
-        darkPalette.setColor(QPalette::ToolTipBase, Qt::white);
-        darkPalette.setColor(QPalette::ToolTipText, Qt::white);
-        darkPalette.setColor(QPalette::Text, Qt::white);
-        darkPalette.setColor(QPalette::Button, QColor(53,53,53));
-        darkPalette.setColor(QPalette::ButtonText, Qt::white);
-        darkPalette.setColor(QPalette::BrightText, Qt::red);
-        darkPalette.setColor(QPalette::Link, QColor(42, 130, 218));
+    qApp->setStyle(QStyleFactory::create("Fusion"));
 
-        darkPalette.setColor(QPalette::Highlight, QColor(42, 130, 218));
-        darkPalette.setColor(QPalette::HighlightedText, Qt::black);
+    QPalette darkPalette;
+    darkPalette.setColor(QPalette::Window,          QColor( 37,  37,  37));
+    darkPalette.setColor(QPalette::WindowText,      QColor(212, 212, 212));
+    darkPalette.setColor(QPalette::Base,            QColor( 60,  60,  60));
+    darkPalette.setColor(QPalette::AlternateBase,   QColor( 45,  45,  45));
+//    darkPalette.setColor(QPalette::PlaceholderText, QColor(127, 127, 127));
+    darkPalette.setColor(QPalette::Text,            QColor(212, 212, 212));
+    darkPalette.setColor(QPalette::Button,          QColor( 45,  45,  45));
+    darkPalette.setColor(QPalette::ButtonText,      QColor(212, 212, 212));
+    darkPalette.setColor(QPalette::BrightText,      QColor(240, 240, 240));
+    darkPalette.setColor(QPalette::Highlight,       QColor( 38,  79, 120));
+    darkPalette.setColor(QPalette::HighlightedText, QColor(240, 240, 240));
 
-        qApp->setPalette(darkPalette);
+    darkPalette.setColor(QPalette::Light,           QColor( 60,  60,  60));
+    darkPalette.setColor(QPalette::Midlight,        QColor( 52,  52,  52));
+    darkPalette.setColor(QPalette::Dark,            QColor( 30,  30,  30) );
+    darkPalette.setColor(QPalette::Mid,             QColor( 37,  37,  37));
+    darkPalette.setColor(QPalette::Shadow,          QColor( 0,    0,   0));
 
-        qApp->setStyleSheet("QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white; }");
-    */
+    darkPalette.setColor(QPalette::Disabled, QPalette::Text, QColor(127, 127, 127));
+
+    qApp->setPalette(darkPalette);
+
+    qApp->setStyleSheet("QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white; }");
     // dark style end
 
 

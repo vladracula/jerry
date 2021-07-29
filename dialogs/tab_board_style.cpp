@@ -23,7 +23,7 @@ TabBoardStyle::TabBoardStyle(ColorStyle *currentStyle, QWidget *parent)
     QRadioButton *pcs_old = new QRadioButton(tr("Old Style"));
     QRadioButton *pcs_uscf = new QRadioButton(tr("USCF"));
 
-    QRadioButton *brd_blue = new QRadioButton(tr("Blue (Default)"));
+    QRadioButton *brd_gray = new QRadioButton(tr("Gray (Default)"));
     QRadioButton *brd_green = new QRadioButton(tr("Green"));
     QRadioButton *brd_brown = new QRadioButton(tr("Brown"));
 
@@ -53,8 +53,8 @@ TabBoardStyle::TabBoardStyle(ColorStyle *currentStyle, QWidget *parent)
             brd_blue_marbles->setChecked(true);
         }
     } else {
-        if(currentStyle->borderColor == BORDER_BLUE) {
-            brd_blue->setChecked(true);
+        if(currentStyle->borderColor == BORDER_GRAY) {
+            brd_gray->setChecked(true);
         }
         if(currentStyle->borderColor == BORDER_GREEN) {
             brd_green->setChecked(true);
@@ -88,7 +88,7 @@ TabBoardStyle::TabBoardStyle(ColorStyle *currentStyle, QWidget *parent)
     groupBoxPieces->setLayout(vboxPcs);
 
     QVBoxLayout *vboxBrd = new QVBoxLayout();
-    vboxBrd->addWidget(brd_blue);
+    vboxBrd->addWidget(brd_gray);
     vboxBrd->addWidget(brd_green);
     vboxBrd->addWidget(brd_brown);
     vboxBrd->addWidget(brd_wood);
@@ -114,7 +114,7 @@ TabBoardStyle::TabBoardStyle(ColorStyle *currentStyle, QWidget *parent)
     connect(pcs_old, &QRadioButton::toggled, this, &TabBoardStyle::onOldPieces);
     connect(pcs_merida, &QRadioButton::toggled, this, &TabBoardStyle::onMeridaPieces);
 
-    connect(brd_blue, &QRadioButton::toggled, this, &TabBoardStyle::onBlueColor);
+    connect(brd_gray, &QRadioButton::toggled, this, &TabBoardStyle::onBlueColor);
     connect(brd_green, &QRadioButton::toggled, this, &TabBoardStyle::onGreenColor);
     connect(brd_brown, &QRadioButton::toggled, this, &TabBoardStyle::onBrownColor);
 
@@ -143,8 +143,8 @@ void TabBoardStyle::TabBoardStyle::onOldPieces() {
 }
 
 void TabBoardStyle::TabBoardStyle::onBlueColor() {
-    this->displayBoard->setBoardColors(BORDER_BLUE, DARK_SQUARE_BLUE,
-                                       LIGHT_SQUARE_BLUE, COORDINATE_COLOR_BLUE, STYLE_BLUE);
+    this->displayBoard->setBoardColors(BORDER_GRAY, DARK_SQUARE_GRAY,
+                                       LIGHT_SQUARE_GRAY, COORDINATE_COLOR_GRAY, STYLE_GRAY);
     this->displayBoard->setBoardStyle(BOARD_STYLE_COLOR);
     this->displayBoard->update();
 }

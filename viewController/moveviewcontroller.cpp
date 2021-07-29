@@ -389,7 +389,7 @@ void MoveViewController::onStateChange() {
 
     if(this->gameModel->getGame()->isTreeChanged()) {
         this->document->clear();
-        QString format = "a:link { color: #000000; text-decoration: none}";
+        QString format = "a:link { color: #CCCCCC; text-decoration: none}";
         if(!this->gameModel->fontStyle->moveWindowFontSize.isEmpty()) {
             format.append(QString(" * { font-size: ").append(this->gameModel->fontStyle->moveWindowFontSize).append("pt; }"));
         }
