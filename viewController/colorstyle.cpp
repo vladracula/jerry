@@ -81,7 +81,7 @@ void ColorStyle::setStyle(int styleType) {
         this->darkSquareTexture = QPixmap(DARK_SQUARE_WOOD);
         this->lightSquareTexture = QPixmap(LIGHT_SQUARE_WOOD);
     } else {
-        // if unknown or default, set to blue
+        // if unknown or default, set to gray
         this->boardStyle = BOARD_STYLE_COLOR;
         this->styleType = STYLE_GRAY;
         this->borderColor = BORDER_GRAY;

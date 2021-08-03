@@ -39,7 +39,7 @@ const int PIECE_STYLE_USCF = 2;
 
 const QColor BORDER_GRAY = QColor(66,66,66);
 const QColor DARK_SQUARE_GRAY = QColor(106,106,106);
-const QColor LIGHT_SQUARE_GRAY = QColor(188,188,188);
+const QColor LIGHT_SQUARE_GRAY = QColor(168,168,168);
 const QColor COORDINATE_COLOR_GRAY = QColor(239,239,239);
 
 const QColor BORDER_GREEN = QColor(72,81,63);
