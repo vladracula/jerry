@@ -71,7 +71,6 @@ MainWindow::MainWindow(QWidget *parent) :
     // set working dir to executable work directory
     QDir::setCurrent(QCoreApplication::applicationDirPath());
 
-
     //chess::FuncT *f = new chess::FuncT();
     //f->run_pgn_speedtest();
     //f->run_polyglot();
@@ -105,20 +104,19 @@ MainWindow::MainWindow(QWidget *parent) :
     name->setAlignment(Qt::AlignCenter);
     name->setBuddy(moveViewController);
 
-    QHBoxLayout *hbox_name_editHeader = new QHBoxLayout();
-    QPushButton *editHeader = new QPushButton();
-    editHeader->setIcon(QIcon(":/res/icons/document-properties.svg"));
+    QHBoxLayout *moveEditLayout = new QHBoxLayout();
+    QPushButton *editMovesButton = new QPushButton();
+    editMovesButton->setIcon(QIcon(":/res/icons/document-properties.svg"));
 
-    hbox_name_editHeader->addStretch(1);
-    hbox_name_editHeader->addWidget(this->name);
-    hbox_name_editHeader->addStretch(1);
-    hbox_name_editHeader->addWidget(editHeader);
+    moveEditLayout->addStretch(1);
+    moveEditLayout->addWidget(this->name);
+    moveEditLayout->addStretch(1);
+    moveEditLayout->addWidget(editMovesButton);
 
     this->uciController     = new UciController();
     this->modeController    = new ModeController(gameModel, uciController, this);
     this->editController    = new EditController(gameModel, this);
     this->fileController    = new FileController(gameModel, this);
-
 
     QSize btnSize           = QSize(this->iconSize() * 1.1);
     QSize btnSizeLR         = QSize(this->iconSize() * 1.2);
@@ -126,7 +124,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QPushButton *right      = new QPushButton();
     QPushButton *beginning  = new QPushButton();
     QPushButton *end        = new QPushButton();
-
 
     left->setIconSize(btnSizeLR);
     right->setIconSize(btnSizeLR);
@@ -148,97 +145,98 @@ MainWindow::MainWindow(QWidget *parent) :
     // <board      ->   <moves_edit_view---------->
     // <view       ->   <engine output view      ->
 
-
     QSizePolicy *spLeft = new QSizePolicy();
     spLeft->setHorizontalStretch(1);
 
     QSizePolicy *spRight = new QSizePolicy();
     spRight->setHorizontalStretch(2);
 
-    QHBoxLayout *hbox_buttons = new QHBoxLayout();
-    hbox_buttons->addStretch(1);
-    hbox_buttons->addWidget(beginning);
-    hbox_buttons->addWidget(left);
-    hbox_buttons->addWidget(right);
-    hbox_buttons->addWidget(end);
-    hbox_buttons->addStretch(1);
-
-    QHBoxLayout *hbox_right_engine_buttons = new QHBoxLayout();
+    QHBoxLayout *moveButtonsLayout = new QHBoxLayout();
+    moveButtonsLayout->addStretch(1);
+    moveButtonsLayout->addWidget(beginning);
+    moveButtonsLayout->addWidget(left);
+    moveButtonsLayout->addWidget(right);
+    moveButtonsLayout->addWidget(end);
+    moveButtonsLayout->addStretch(1);
 
     this->pbEngineOnOff = new OnOffButton(this); //new QPushButton("OFF");
     this->lblMultiPv    = new QLabel(this->tr("Lines:"), this);
     this->spinMultiPv   = new QSpinBox(this);
-    this->spinMultiPv->setRange(1,4);
+    this->spinMultiPv->setRange(1,5);
     this->spinMultiPv->setValue(1);
     this->lblMultiPv->setBuddy(this->spinMultiPv);
 
-    QPushButton *editEngines = new QPushButton();
-    editEngines->setIcon(QIcon(":/res/icons/document-properties.svg"));
+    QPushButton *editEnginesButton = new QPushButton();
+    editEnginesButton->setIcon(QIcon(":/res/icons/document-properties.svg"));
 
-    hbox_right_engine_buttons->addWidget(pbEngineOnOff);
-    hbox_right_engine_buttons->addWidget(this->lblMultiPv);
-    hbox_right_engine_buttons->addWidget(this->spinMultiPv);
-    hbox_right_engine_buttons->addStretch(1);
-    hbox_right_engine_buttons->addWidget(editEngines);
+    QHBoxLayout *engineButtonsLayout = new QHBoxLayout();
 
-    QVBoxLayout *vbox_right = new QVBoxLayout();
-    vbox_right->addLayout(hbox_name_editHeader);
-    vbox_right->addWidget(moveViewController);
-    vbox_right->addLayout(hbox_buttons);
+    engineButtonsLayout->addWidget(pbEngineOnOff);
+    engineButtonsLayout->addWidget(this->lblMultiPv);
+    engineButtonsLayout->addWidget(this->spinMultiPv);
+    engineButtonsLayout->addStretch(1);
+    engineButtonsLayout->addWidget(editEnginesButton);
 
-    vbox_right->setStretch(0,1);
-    vbox_right->setStretch(1,4);
-    vbox_right->setStretch(2,1);
+    QVBoxLayout *moveLayout = new QVBoxLayout();
+    moveLayout->addLayout(moveEditLayout);
+    moveLayout->addWidget(moveViewController);
+    moveLayout->addLayout(moveButtonsLayout);
 
-    QVBoxLayout *vbox_left = new QVBoxLayout();
-    vbox_left->addWidget(boardViewController);
+    moveLayout->setStretch(0,1);
+    moveLayout->setStretch(1,4);
+    moveLayout->setStretch(2,1);
 
-    QWidget *lHboxWidget = new QWidget(this);
-    lHboxWidget->setLayout(vbox_left);
-    QWidget *rHboxWidget = new QWidget(this);
-    rHboxWidget->setLayout(vbox_right);
-    this->splitterLeftRight = new QSplitter(this);
-    splitterLeftRight->addWidget(lHboxWidget);
+    QVBoxLayout *boardLayout = new QVBoxLayout();
+    boardLayout->addWidget(boardViewController);
+
+    QVBoxLayout *engineLayout = new QVBoxLayout();
+    engineLayout->addLayout(engineButtonsLayout);
+    engineLayout->addWidget(engineViewController);
+
+    QWidget *boardWidget = new QWidget(this);
+    boardWidget->setLayout(boardLayout);
+    QWidget *moveWidget = new QWidget(this);
+    moveWidget->setLayout(moveLayout);
+    QWidget* engineWidget = new QWidget(this);
+    engineWidget->setLayout(engineLayout);
+
     this->splitterTopDown = new QSplitter(this);
+    splitterTopDown->setOrientation(Qt::Vertical);
+    splitterTopDown->addWidget(moveWidget);
+    splitterTopDown->addWidget(engineWidget);
+
+    QSplitterHandle *handleTopDown = splitterTopDown->handle(1);
+
+    QFrame *frameTopDown = new QFrame(handleTopDown);
+    frameTopDown->setFrameShape(QFrame::HLine);
+    frameTopDown->setFrameShadow(QFrame::Sunken);
+
+    QHBoxLayout *layoutSplitterTopDown = new QHBoxLayout(handleTopDown);
+    layoutSplitterTopDown->setSpacing(0);
+    layoutSplitterTopDown->setMargin(0);
+    layoutSplitterTopDown->addWidget(frameTopDown);
+
+    this->splitterLeftRight = new QSplitter(this);
+    splitterLeftRight->addWidget(boardWidget);
 		splitterLeftRight->addWidget(splitterTopDown);
 
     QSplitterHandle *handleLeftRight = splitterLeftRight->handle(1);
-    QHBoxLayout *layoutSplitterLeftRight = new QHBoxLayout(handleLeftRight);
-    layoutSplitterLeftRight->setSpacing(0);
-    layoutSplitterLeftRight->setMargin(0);
 
     QFrame *frameLeftRight = new QFrame(handleLeftRight);
     frameLeftRight->setFrameShape(QFrame::VLine);
     frameLeftRight->setFrameShadow(QFrame::Sunken);
+
+    QHBoxLayout *layoutSplitterLeftRight = new QHBoxLayout(handleLeftRight);
+    layoutSplitterLeftRight->setSpacing(0);
+    layoutSplitterLeftRight->setMargin(0);
     layoutSplitterLeftRight->addWidget(frameLeftRight);
-
-
-    splitterTopDown->addWidget(rHboxWidget);
-    splitterTopDown->setOrientation(Qt::Vertical);
-
-    QVBoxLayout *completeLayout = new QVBoxLayout();
-    completeLayout->addLayout(hbox_right_engine_buttons);
-    completeLayout->addWidget(engineViewController);
-    QWidget* bottomWidget = new QWidget(this);
-    bottomWidget->setLayout(completeLayout);
-    splitterTopDown->addWidget(bottomWidget);
 
     QHBoxLayout *completeLayoutWithSplitter = new QHBoxLayout();
     completeLayoutWithSplitter->setSpacing(0);
     completeLayoutWithSplitter->setMargin(0);
     completeLayoutWithSplitter->addWidget(splitterLeftRight);
 
-    QSplitterHandle *handleTopDown = splitterTopDown->handle(1);
-    QHBoxLayout *layoutSplitterTopDown = new QHBoxLayout(handleTopDown);
-    layoutSplitterTopDown->setSpacing(0);
-    layoutSplitterTopDown->setMargin(0);
-
-    QFrame *frameTopDown = new QFrame(handleTopDown);
-    frameTopDown->setFrameShape(QFrame::HLine);
-    frameTopDown->setFrameShadow(QFrame::Sunken);
-    layoutSplitterTopDown->addWidget(frameTopDown);
-
-
+		// GAME MENU
     QMenu *m_game = this->menuBar()->addMenu(this->tr("Game"));
     QAction* actionNewGame = m_game->addAction(this->tr("New..."));
     QAction* actionOpen = m_game->addAction(this->tr("Open File"));
@@ -326,7 +324,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QAction *actionAbout = m_help->addAction(this->tr("About"));
     QAction *actionHomepage = m_help->addAction(this->tr("Jerry-Homepage"));
 
-
     // TOOLBAR
     this->toolbar = addToolBar("main toolbar");
     this->toolbar->setMovable(false);
@@ -374,50 +371,6 @@ MainWindow::MainWindow(QWidget *parent) :
     sc_flip->setContext(Qt::ApplicationShortcut);
     QShortcut *sc_enter_pos = new QShortcut(QKeySequence(Qt::Key_E), this);
     sc_enter_pos->setContext(Qt::ApplicationShortcut);
-
-
-    /*
-    // FILE
-    // Game
-    QAction* actionNewGame = this->createAction("document-new", this->tr("New Game"), iconSize);
-    QAction* actionOpen = this->createAction("document-open", this->tr("Open File"), iconSize);
-    QAction* actionSaveAs = this->createAction("document-save", this->tr("Save Current\nGame As"), iconSize);
-    // Print
-    QAction* actionPrintGame = this->createAction("document-print", this->tr("Print Game"), iconSize);
-    QAction* actionPrintPosition = this->createAction("document-print-board", this->tr("Print Position"), iconSize);
-    // Layout
-    QAction* actionColorStyle = this->createAction("applications-graphics", this->tr("Board Style"), iconSize);
-    QAction* actionResetLayout = this->createAction("preferences-system-session", this->tr("Reset Layout"), iconSize);
-    // Quit
-    QAction* actionQuit = this->createAction("system-log-out", this->tr("Exit"), iconSize);
-    // Homepage
-    QAction* actionHomepage = this->createAction("internet-web-browser", this->tr("Homepage"), iconSize);
-    // Help (About)
-    QAction* actionAbout = this->createAction("help-browser", this->tr("About"), iconSize);
-
-    // START
-    // Game
-    QAction* actionPaste = this->createAction("edit-paste", this->tr("Paste\nGame/Position"), iconSize);
-    QAction* actionCopyGame = this->createAction("edit-copy-pgn", this->tr("Copy Game"), iconSizeSmall);
-    QAction* actionCopyPosition = this->createAction("edit-copy-fen", this->tr("Copy Position"), iconSizeSmall);
-    // Edit
-    QAction* actionEditGameData = this->createAction("edit-copy-fen", this->tr("Edit\nMeta Data"), iconSize);
-    QAction* actionEnterPosition = this->createAction("document-enter-position", this->tr("Setup\nNew Position"), iconSize);
-    QAction* actionFlipBoard = this->createAction("view-refresh", this->tr("Flip Board"), iconSize);
-    //QAction* actionShowSearchInfo = this->createAction("view-refresh", this->tr("Show\nSearch Info"), iconSize);
-    // Mode
-    QAction* actionAnalysis = this->createAction("edit-find", this->tr("Infinite\nAnalysis"), iconSize);
-    QAction* actionPlayWhite = this->createAction("play-white", this->tr("Play\nWhite"), iconSize);
-    QAction* actionPlayBlack = this->createAction("play-black", this->tr("Play\nBlack"), iconSize);
-    QAction* actionEnterMoves = this->createAction("text-pencil", this->tr("Enter\nMoves"), iconSize);
-    // Analysis
-    QAction* actionFullGameAnalysis = this->createAction("edit-find-replace", this->tr("Full\nGame Analysis"), iconSize);
-    QAction* actionEnginePlayout = this->createAction("dialog-information", this->tr("Engine\nPlayout"), iconSize);
-    // Database
-    QAction* actionDatabaseWindow = this->createAction("database", this->tr("Show\nDatabase"), iconSize);
-    QAction* actionLoadPreviousGame = this->createAction("go-previous", this->tr("Previous Game"), iconSizeSmall);
-    QAction* actionLoadNextGame = this->createAction("go-previous", this->tr("Next Game"), iconSizeSmall);
-    */
 
     mainWidget->setLayout(completeLayoutWithSplitter);
 
@@ -474,7 +427,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(sc_enter_move_mode_esc, &QShortcut::activated, modeController, &ModeController::onActivateEnterMovesMode);
     connect(sc_enter_pos, &QShortcut::activated, editController, &EditController::enterPosition);
 
-
     // toolbar buttons
 
     connect(tbActionNew,  &QAction::triggered, actionNewGame, &QAction::trigger);
@@ -503,9 +455,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(right, &QPushButton::clicked, this->moveViewController, &MoveViewController::onForwardClick);
     connect(left, &QPushButton::clicked, this->moveViewController, &MoveViewController::onBackwardClick);
 
-    connect(editEngines, &QPushButton::clicked, this->modeController, &ModeController::onSetEnginesClicked);
+    connect(editEnginesButton, &QPushButton::clicked, this->modeController, &ModeController::onSetEnginesClicked);
     connect(pbEngineOnOff, &QPushButton::toggled, this, &MainWindow::onEngineToggle);
-    connect(editHeader, &QPushButton::clicked, editController, &EditController::editHeaders);
+    connect(editMovesButton, &QPushButton::clicked, editController, &EditController::editHeaders);
 
     //connect(enter_moves, &QAction::triggered, modeController, &ModeController::onActivateEnterMovesMode);
 
@@ -668,14 +620,12 @@ void MainWindow::resetLayout() {
 		int halfWidth = this->width();
 		int ls;
 		int rs;
-//		ll = this->height();
-//		rr = this->width() - ll;
-		ls = halfWidth * 8;
-		rs = halfWidth * 7;
+		ls = halfWidth * 9;
+		rs = halfWidth * 8;
 
     splitterLeftRight->setSizes(QList<int>({ls, rs}));
-    int seventhHeight = this->height() / 7;
-    splitterTopDown->setSizes(QList<int>({seventhHeight*5, seventhHeight*2}));
+    double seventhHeight = this->height() / 7;
+    splitterTopDown->setSizes(QList<int>({static_cast<int>(seventhHeight) * 5, static_cast<int>(seventhHeight) * 2}));
 
     this->update();
 }
@@ -696,5 +646,3 @@ QPixmap* MainWindow::fromSvgToPixmap(const QSize &ImageSize, const QString &SvgF
 
     return img;
 }
-
-
