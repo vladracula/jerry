@@ -30,7 +30,7 @@ Version 3.2.0 (July 2019): Major new features:
  * ability to handle and search large (> 1 GB) PGN files
  * user defined font-sizes
 
-## Building od stretch
+## Building on stretch
 
 - qmake jerry3.pro
 - make

@@ -162,7 +162,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->pbEngineOnOff = new OnOffButton(this); //new QPushButton("OFF");
     this->lblMultiPv    = new QLabel(this->tr("Lines:"), this);
     this->spinMultiPv   = new QSpinBox(this);
-    this->spinMultiPv->setRange(1,5);
+    this->spinMultiPv->setRange(1,4);
     this->spinMultiPv->setValue(1);
     this->lblMultiPv->setBuddy(this->spinMultiPv);
 
